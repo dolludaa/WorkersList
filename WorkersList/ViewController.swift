@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    var employees: [Employee] = []
+    var employees: [Employee] = [] 
     private let workersService = WorkersService()
     
 
@@ -19,8 +19,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        //         не безопасный, возвращает просто тип не знаем что это за объект и нужно писать as
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: EmployeeCell.reuseIdentifier, for: indexPath
+        ) as! EmployeeCell
+        
         let employee = employees[indexPath.row]
+        cell.configure(employee: employee)
         return cell
     }
     
@@ -28,10 +33,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     private func setUpStyle() {
         tableView.backgroundColor = .lightGray
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        //        регистрируем TABLE CELL
+        tableView.register(EmployeeCell.self, forCellReuseIdentifier: EmployeeCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 300
+        tableView.rowHeight = 100
     }
     
     private func setUpLayout() {
@@ -51,7 +57,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         workersService.fetchResultsFromApi { [weak self] result in
             switch result {
             case .success(let workersList):
-                self?.employees = workersList.company.employees
+                self?.employees = workersList.company.employees.sorted { employeelhs, employeerhs in
+                    
+                    employeelhs.name < employeerhs.name
+                }
                 self?.tableView.reloadData()
             case .failure(let error):
                 print(error)
