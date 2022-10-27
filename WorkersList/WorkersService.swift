@@ -15,7 +15,7 @@ class WorkersService {
             guard data != nil else { return }
             
             do {
-                var data = try Data(contentsOf: url)
+                let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
                 let jsonData = try decoder.decode(WorkersList.self, from: data)
                 
