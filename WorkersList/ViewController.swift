@@ -18,10 +18,32 @@ class ViewController: UIViewController, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(showOfflineDeviceUI(notification:)), name: NSNotification.Name.connectivityStatus, object: nil)
+        NetworkMonitor.shared.startMonitoring()
         loadData()
         employeesAvatars = avatarsData()
         setUpStyle()
         setUpLayout()
+    }
+    
+    @objc func showOfflineDeviceUI(notification: Notification) {
+            if NetworkMonitor.shared.isConnected {
+                print("Connected")
+            } else {
+                print("Not connected")
+                DispatchQueue.main.async {
+                    self.showAlert()
+                }
+            }
+        }
+    
+    private func showAlert() {
+
+        let alert = UIAlertController(title: "No Internet", message: "This app requires wifi/internet connection!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            NSLog("The \"OK\" alert occured")
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func setUpStyle() {
@@ -33,7 +55,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableHeaderView = employeeHeader
         tableView.separatorStyle = .none
-
+        
     }
     
     private func setUpLayout() {
@@ -48,7 +70,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
-        employeeHeader.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true 
+        employeeHeader.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
     
     private func loadData() {
@@ -69,6 +91,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     }
 }
 
+// MARK: Extensions
 extension ViewController {
     func avatarsData() -> [Avatar] {
         let avatar1 = Avatar(image: Images.avatar1)
@@ -101,3 +124,4 @@ extension ViewController: UITableViewDataSource {
         
     }
 }
+

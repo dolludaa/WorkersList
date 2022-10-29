@@ -13,6 +13,7 @@
 		44DED2672909A17C00937220 /* AvatarsEmployees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DED2662909A17C00937220 /* AvatarsEmployees.swift */; };
 		44DED2692909A2D200937220 /* Constants .swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DED2682909A2D200937220 /* Constants .swift */; };
 		44DED26B2909F48D00937220 /* EmployeeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DED26A2909F48D00937220 /* EmployeeHeaderView.swift */; };
+		44DED275290B2FDB00937220 /* NetworkConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DED274290B2FDB00937220 /* NetworkConnection.swift */; };
 		44E10CE12906EB1F00590F3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E10CE02906EB1F00590F3D /* AppDelegate.swift */; };
 		44E10CE32906EB1F00590F3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E10CE22906EB1F00590F3D /* SceneDelegate.swift */; };
 		44E10CE52906EB1F00590F3D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E10CE42906EB1F00590F3D /* ViewController.swift */; };
@@ -27,6 +28,7 @@
 		44DED2662909A17C00937220 /* AvatarsEmployees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarsEmployees.swift; sourceTree = "<group>"; };
 		44DED2682909A2D200937220 /* Constants .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Constants .swift"; sourceTree = "<group>"; };
 		44DED26A2909F48D00937220 /* EmployeeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeHeaderView.swift; sourceTree = "<group>"; };
+		44DED274290B2FDB00937220 /* NetworkConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnection.swift; sourceTree = "<group>"; };
 		44E10CDD2906EB1F00590F3D /* WorkersList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkersList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44E10CE02906EB1F00590F3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44E10CE22906EB1F00590F3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				44DED25F2906F00100937220 /* WorkersService.swift */,
 				44DED263290870BE00937220 /* TableCell.swift */,
 				44DED26A2909F48D00937220 /* EmployeeHeaderView.swift */,
+				44DED274290B2FDB00937220 /* NetworkConnection.swift */,
 			);
 			path = WorkersList;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 			files = (
 				44DED2692909A2D200937220 /* Constants .swift in Sources */,
 				44DED264290870BE00937220 /* TableCell.swift in Sources */,
+				44DED275290B2FDB00937220 /* NetworkConnection.swift in Sources */,
 				44E10CE52906EB1F00590F3D /* ViewController.swift in Sources */,
 				44DED25E2906EF1000937220 /* WorkersList.swift in Sources */,
 				44DED2602906F00100937220 /* WorkersService.swift in Sources */,
