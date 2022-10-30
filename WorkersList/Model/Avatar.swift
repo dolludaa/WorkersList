@@ -9,5 +9,6 @@ import Foundation
 import UIKit
 
 struct Avatar {
+    
     let image: UIImage
 }

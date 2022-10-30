@@ -8,6 +8,7 @@
 import UIKit
 
 struct Images {
+    
     static let avatar1 = UIImage(named: "1")!
     static let avatar2 = UIImage(named: "2")!
     static let avatar3 = UIImage(named: "3")!

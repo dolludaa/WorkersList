@@ -7,10 +7,12 @@ class EmployeeHeaderView: UIView {
     private let companyNameLabel = UILabel()
     
     func showConnection() {
+        
         symbolView.isHidden = false
     }
     
     func showDisconnection() {
+        
         symbolView.isHidden = true
     }
     

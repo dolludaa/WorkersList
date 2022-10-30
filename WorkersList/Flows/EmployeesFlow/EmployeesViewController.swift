@@ -11,6 +11,7 @@ class EmployeesViewController: UIViewController {
     private let employeeHeader = EmployeeHeaderView()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         loadData()
         setupNotifications()
@@ -19,6 +20,7 @@ class EmployeesViewController: UIViewController {
     }
     
     @objc func showOfflineDeviceUI(notification: Notification) {
+        
         if NetworkMonitor.shared.isConnected {
             DispatchQueue.main.async {
                 self.employeeHeader.showConnection()
@@ -30,8 +32,14 @@ class EmployeesViewController: UIViewController {
             }
         }
     }
+    
+    @objc private func didStartRefreshing() {
+        
+        loadData()
+    }
 
     private func setupNotifications() {
+        
         NotificationCenter.default.addObserver(self, selector: #selector(showOfflineDeviceUI(notification:)), name: NSNotification.Name.connectivityStatus, object: nil)
     }
     
@@ -44,12 +52,16 @@ class EmployeesViewController: UIViewController {
     
     private func setUpStyle() {
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(didStartRefreshing), for: .valueChanged)
+        
         tableView.backgroundColor = UIColor(named: "backgroundColor")
         tableView.register(EmployeeCell.self, forCellReuseIdentifier: EmployeeCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableHeaderView = employeeHeader
         tableView.separatorStyle = .none
+        tableView.refreshControl = refreshControl
     }
     
     private func setUpLayout() {
@@ -70,6 +82,9 @@ class EmployeesViewController: UIViewController {
     private func loadData() {
         
         workersService.fetchResultsFromApi { [weak self] result in
+            
+            self?.tableView.refreshControl?.endRefreshing()
+            
             switch result {
             case .success(let workersList):
                 self?.employeeHeader.setCompanyName(name: workersList.company.name)

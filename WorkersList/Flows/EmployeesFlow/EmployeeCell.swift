@@ -67,6 +67,8 @@ class EmployeeCell: UITableViewCell {
     private func setupStyle() {
         
         backgroundColor = UIColor(named: "backgroundColor")
+        selectionStyle = .none
+        
         skillsLabel.numberOfLines = 0
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 30

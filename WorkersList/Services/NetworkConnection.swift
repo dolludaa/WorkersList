@@ -2,10 +2,12 @@ import Foundation
 import Network
 
 extension Notification.Name {
+    
     static let connectivityStatus = Notification.Name(rawValue: "connectivityStatusChanged")
 }
 
 extension NWInterface.InterfaceType: CaseIterable {
+    
     public static var allCases: [NWInterface.InterfaceType] = [
         .other,
         .wifi,
@@ -16,6 +18,7 @@ extension NWInterface.InterfaceType: CaseIterable {
 }
 
 final class NetworkMonitor {
+    
     static let shared = NetworkMonitor()
 
     private let queue = DispatchQueue(label: "NetworkConnectivityMonitor")
@@ -29,6 +32,7 @@ final class NetworkMonitor {
     }
 
     func startMonitoring() {
+        
         monitor.pathUpdateHandler = { [weak self] path in
             self?.isConnected = path.status != .unsatisfied
             self?.currentConnectionType = NWInterface.InterfaceType.allCases.filter { path.usesInterfaceType($0) }.first
@@ -39,6 +43,7 @@ final class NetworkMonitor {
     }
 
     func stopMonitoring() {
+        
         monitor.cancel()
     }
 }
