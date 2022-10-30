@@ -17,6 +17,7 @@ class WorkersService {
             do {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let jsonData = try decoder.decode(WorkersList.self, from: data)
                 
                 if let error = error {

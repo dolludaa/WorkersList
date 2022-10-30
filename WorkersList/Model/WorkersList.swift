@@ -11,14 +11,9 @@ struct Company: Decodable {
 
 struct Employee: Decodable {
     let name: String
-    let phone: String
+    let phoneNumber: String
     let skills: [String]
     
-    enum CodingKeys: String, CodingKey {
-        case name, skills
-        case phone = "phone_number"
-        
-    }
 }
 
 

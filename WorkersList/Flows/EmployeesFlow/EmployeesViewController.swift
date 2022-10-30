@@ -1,49 +1,45 @@
-//
-//  ViewController.swift
-//  WorkersList
-//
-//  Created by Людмила Долонтаева on 24.10.2022.
-//
-
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate {
+class EmployeesViewController: UIViewController {
     
-    var employees: [Employee] = []
-    var employeesAvatars: [Avatar] = []
+    private var employees: [Employee] = []
+    private var employeesAvatars: [Avatar] = []
     
     private let workersService = WorkersService()
+    private let avatarsService = AvatarsService()
     private let tableView = UITableView()
     private let employeeHeader = EmployeeHeaderView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(showOfflineDeviceUI(notification:)), name: NSNotification.Name.connectivityStatus, object: nil)
-        NetworkMonitor.shared.startMonitoring()
         loadData()
-        employeesAvatars = avatarsData()
+        setupNotifications()
         setUpStyle()
         setUpLayout()
     }
     
     @objc func showOfflineDeviceUI(notification: Notification) {
-            if NetworkMonitor.shared.isConnected {
-                print("Connected")
-            } else {
-                print("Not connected")
-                DispatchQueue.main.async {
-                    self.showAlert()
-                }
+        if NetworkMonitor.shared.isConnected {
+            DispatchQueue.main.async {
+                self.employeeHeader.showConnection()
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.showAlert()
+                self.employeeHeader.showDisconnection()
             }
         }
+    }
+
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showOfflineDeviceUI(notification:)), name: NSNotification.Name.connectivityStatus, object: nil)
+    }
     
     private func showAlert() {
 
         let alert = UIAlertController(title: "No Internet", message: "This app requires wifi/internet connection!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-            NSLog("The \"OK\" alert occured")
-        }))
-        self.present(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "OK", style: .default ))
+        present(alert, animated: true, completion: nil)
     }
     
     private func setUpStyle() {
@@ -51,11 +47,9 @@ class ViewController: UIViewController, UITableViewDelegate {
         tableView.backgroundColor = UIColor(named: "backgroundColor")
         tableView.register(EmployeeCell.self, forCellReuseIdentifier: EmployeeCell.reuseIdentifier)
         tableView.dataSource = self
-        tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableHeaderView = employeeHeader
         tableView.separatorStyle = .none
-        
     }
     
     private func setUpLayout() {
@@ -78,7 +72,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         workersService.fetchResultsFromApi { [weak self] result in
             switch result {
             case .success(let workersList):
-                self?.employeeHeader.companyNameLabel.text = workersList.company.name
+                self?.employeeHeader.setCompanyName(name: workersList.company.name)
                 self?.employees = workersList.company.employees.sorted { employeelhs, employeerhs in
                     
                     employeelhs.name < employeerhs.name
@@ -88,26 +82,14 @@ class ViewController: UIViewController, UITableViewDelegate {
                 print(error)
             }
         }
-    }
-}
-
-// MARK: Extensions
-extension ViewController {
-    func avatarsData() -> [Avatar] {
-        let avatar1 = Avatar(image: Images.avatar1)
-        let avatar2 = Avatar(image: Images.avatar2)
-        let avatar3 = Avatar(image: Images.avatar3)
-        let avatar4 = Avatar(image: Images.avatar4)
-        let avatar5 = Avatar(image: Images.avatar5)
-        let avatar6 = Avatar(image: Images.avatar6)
-        let avatar7 = Avatar(image: Images.avatar7)
-        let avatar8 = Avatar(image: Images.avatar8)
         
-        return [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6, avatar7, avatar8]
+        employeesAvatars = avatarsService.getAvatarsData()
     }
 }
 
-extension ViewController: UITableViewDataSource {
+// MARK: TableViewDataSource
+
+extension EmployeesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return employees.count
@@ -124,4 +106,3 @@ extension ViewController: UITableViewDataSource {
         
     }
 }
-

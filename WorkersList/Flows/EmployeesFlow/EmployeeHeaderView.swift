@@ -2,9 +2,22 @@ import Foundation
 import UIKit
 
 class EmployeeHeaderView: UIView {
-    private let symbolView = UIImageView()
-    let companyNameLabel = UILabel()
     
+    private let symbolView = UIImageView()
+    private let companyNameLabel = UILabel()
+    
+    func showConnection() {
+        symbolView.isHidden = false
+    }
+    
+    func showDisconnection() {
+        symbolView.isHidden = true
+    }
+    
+    func setCompanyName(name: String) {
+        
+        companyNameLabel.text = name
+    }
     
     private func setupLayout() {
         
@@ -23,7 +36,6 @@ class EmployeeHeaderView: UIView {
         symbolView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         symbolView.widthAnchor.constraint(equalToConstant: 40).isActive = true
         symbolView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        
     }
     
     private func setupStyle() {
@@ -31,17 +43,20 @@ class EmployeeHeaderView: UIView {
         companyNameLabel.font = UIFont.boldSystemFont(ofSize: 45)
         companyNameLabel.adjustsFontForContentSizeCategory = true
         
-        symbolView.image = UIImage(systemName: "person.crop.circle.fill.badge.plus")
+        symbolView.image = UIImage(systemName: "wifi.slash")
+        symbolView.isHidden = true
         symbolView.contentMode = .scaleAspectFit
     }
     
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         setupStyle()
         setupLayout()
     }
     
     required init?(coder: NSCoder) {
+        
         fatalError("init(coder:) has not been implemented")
     }
 }

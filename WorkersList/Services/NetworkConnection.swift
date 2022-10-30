@@ -22,7 +22,6 @@ final class NetworkMonitor {
     private let monitor: NWPathMonitor
 
     private(set) var isConnected = false
-    private(set) var isExpensive = false
     private(set) var currentConnectionType: NWInterface.InterfaceType?
 
     private init() {
@@ -32,7 +31,6 @@ final class NetworkMonitor {
     func startMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in
             self?.isConnected = path.status != .unsatisfied
-            self?.isExpensive = path.isExpensive
             self?.currentConnectionType = NWInterface.InterfaceType.allCases.filter { path.usesInterfaceType($0) }.first
             
             NotificationCenter.default.post(name: .connectivityStatus, object: nil)
