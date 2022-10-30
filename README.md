@@ -47,7 +47,7 @@ func fetchResultsFromApi(completion: @escaping (Result<WorkersList, Error>) -> V
             let currentDate = Date()
             let timeIntervalInSeconds = currentDate.timeIntervalSince(lastDataRequestTime)
             
-            if timeIntervalInSeconds > 10 {
+            if timeIntervalInSeconds > 3600 {
                 requestRemoteData(policy: .reloadIgnoringCacheData, completion: completion)
             } else {
                 requestRemoteData(policy: .returnCacheDataElseLoad, completion: completion)
@@ -56,7 +56,6 @@ func fetchResultsFromApi(completion: @escaping (Result<WorkersList, Error>) -> V
         } else {
             requestRemoteData(policy: .reloadIgnoringCacheData, completion: completion)
         }
-    }
     }
 ```
 
