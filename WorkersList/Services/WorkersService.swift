@@ -11,7 +11,7 @@ class WorkersService {
             let currentDate = Date()
             let timeIntervalInSeconds = currentDate.timeIntervalSince(lastDataRequestTime)
             
-            if timeIntervalInSeconds > 10 {
+            if timeIntervalInSeconds > 3600 {
                 requestRemoteData(policy: .reloadIgnoringCacheData, completion: completion)
             } else {
                 requestRemoteData(policy: .returnCacheDataElseLoad, completion: completion)
