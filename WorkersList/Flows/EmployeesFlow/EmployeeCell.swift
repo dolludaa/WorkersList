@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 class EmployeeCell: UITableViewCell {
-
+    
     static let reuseIdentifier = "EmployeeCell"
     
     private let nameLabel = UILabel()
@@ -31,7 +31,7 @@ class EmployeeCell: UITableViewCell {
         skillsLabel.translatesAutoresizingMaskIntoConstraints = false
         avatarView.translatesAutoresizingMaskIntoConstraints = false
         containerView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         containerView.addSubview(nameLabel)
         containerView.addSubview(phoneNumberLabel)
         containerView.addSubview(skillsLabel)
@@ -74,26 +74,56 @@ class EmployeeCell: UITableViewCell {
         containerView.layer.cornerRadius = 30
     }
     
-    func configure(employee: Employee, avatar: Avatar?) {
+    private func convertFromToString(skills: [String]) -> String {
         
-        var emptyString = ""
+        var skillsString = ""
         
-        for i in employee.skills.indices {
-            emptyString.append(employee.skills[i])
-            if i != employee.skills.indices.last {
-                emptyString.append(" , ")
+        for i in skills.indices {
+            skillsString.append(skills[i])
+            if i != skills.indices.last {
+                skillsString.append(" , ")
             }
         }
         
-        avatarView.image = avatar?.image
+        return skillsString
+    }
     
-        nameLabel.text = "name:  \(employee.name)"
-        phoneNumberLabel.text = "phone number:  \(employee.phoneNumber)"
-        skillsLabel.text = "skills:  \(emptyString)"
+    @available(iOS 15, *)
+    private func getAttributedName(key: String, value: String) -> AttributedString {
         
-        nameLabel.font = UIFont.systemFont(ofSize: 15)
-        phoneNumberLabel.font = UIFont.systemFont(ofSize: 15)
-        skillsLabel.font = UIFont.systemFont(ofSize: 15)
+        var valueAttributedString = AttributedString(value)
+        
+        valueAttributedString.font = .systemFont(ofSize: 15, weight: .light)
+        
+        var keyAttributedString = AttributedString(key)
+
+        keyAttributedString.foregroundColor = .systemBrown
+        keyAttributedString.font = .boldSystemFont(ofSize: 17)
+        keyAttributedString.append(valueAttributedString)
+        
+        return keyAttributedString
+    }
+    
+    private func configureLabelsText(employee: Employee) {
+        
+        let convertedSkillsString = convertFromToString(skills: employee.skills)
+        if #available(iOS 15, *) {
+            nameLabel.attributedText = getAttributedName(key: "name: ", value: employee.name).nsAttributedString
+            phoneNumberLabel.attributedText = getAttributedName(key: "phone number: ", value: employee.phoneNumber).nsAttributedString
+            skillsLabel.attributedText = getAttributedName(key: "skills: ", value:
+                                                            convertedSkillsString).nsAttributedString
+        } else {
+            nameLabel.text = "name: \(employee.name)"
+            phoneNumberLabel.text = "phone number: \(employee.phoneNumber)"
+            skillsLabel.text = "skills: \(convertedSkillsString)"
+        }
+    }
+    
+    func configure(employee: Employee, avatar: Avatar?) {
+        
+        configureLabelsText(employee: employee)
+        
+        avatarView.image = avatar?.image
     }
 }
 

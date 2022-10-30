@@ -8,12 +8,12 @@ class EmployeeHeaderView: UIView {
     
     func showConnection() {
         
-        symbolView.isHidden = false
+        symbolView.isHidden = true
     }
     
     func showDisconnection() {
         
-        symbolView.isHidden = true
+        symbolView.isHidden = false
     }
     
     func setCompanyName(name: String) {

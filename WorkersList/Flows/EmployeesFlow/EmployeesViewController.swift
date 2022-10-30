@@ -19,7 +19,7 @@ class EmployeesViewController: UIViewController {
         setUpLayout()
     }
     
-    @objc func showOfflineDeviceUI(notification: Notification) {
+    @objc private func showOfflineDeviceUI(notification: Notification) {
         
         if NetworkMonitor.shared.isConnected {
             DispatchQueue.main.async {
